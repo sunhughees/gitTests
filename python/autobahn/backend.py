@@ -1,30 +1,37 @@
-from os import environ
-from twisted.internet.defer import inlineCallbacks
-from twisted.internet.task import LoopingCall
-from autobahn.twisted.wamp import ApplicationSession, ApplicationRunner
-# or: from autobahn.asyncio.wamp import ApplicationSession
+from autobahn.twisted.websocket import WebSocketServerProtocol
+# or: from autobahn.asyncio.websocket import WebSocketServerProtocol
 
+class MyServerProtocol(WebSocketServerProtocol):
 
-class MyComponent(ApplicationSession):
-    @inlineCallbacks
-    def onJoin(self, details):
-        # publish an event every second. The event payloads can be
-        # anything JSON- and msgpack- serializable
-        def publish():
-            return self.publish(u'com.myapp.hello', 'Hello, world!')
-        LoopingCall(publish).start(1)
+    def onConnect(self, request):
+        print("Client connecting: {}".format(request.peer))
 
-        # a remote procedure; see frontend.py for a Python front-end
-        # that calls this. Any language with WAMP bindings can now call
-        # this procedure if its connected to the same router and realm.
-        def add2(x, y):
-            return x + y
-        yield self.register(add2, u'com.myapp.add2')
+    def onOpen(self):
+        print("WebSocket connection open.")
 
+    def onMessage(self, payload, isBinary):
+        if isBinary:
+            print("Binary message received: {} bytes".format(len(payload)))
+        else:
+            print("Text message received: {}".format(payload.decode('utf8')))
+
+        # echo back message verbatim
+        self.sendMessage(payload, isBinary)
+
+    def onClose(self, wasClean, code, reason):
+        print("WebSocket connection closed: {}".format(reason))
 
 if __name__ == '__main__':
-    runner = ApplicationRunner(
-        environ.get("AUTOBAHN_DEMO_ROUTER", u"ws://127.0.0.1:8080/ws"),
-        u"crossbardemo",
-    )
-    runner.run(MyComponent)
+
+   import sys
+
+   from twisted.python import log
+   from twisted.internet import reactor
+   log.startLogging(sys.stdout)
+
+   from autobahn.twisted.websocket import WebSocketServerFactory
+   factory = WebSocketServerFactory()
+   factory.protocol = MyServerProtocol
+
+   reactor.listenTCP(9000, factory)
+   reactor.run()
