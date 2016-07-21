@@ -34,7 +34,6 @@ while True:
     #     text_0 = text
     #     isChange = fileIsChange('example.out')
 
-
     data = c.recv(1024)
 
     if data:
