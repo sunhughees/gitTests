@@ -38,10 +38,10 @@ while True:
 
     if data:
         print "Data: {}".format(data)
-        c.send(data)
+        # c.send(data)
         print "sent {} bytes back to {}".format(data, addr)
         with open("example.out", "r") as f:
-            text = f.read()
-        c.send(text)
+            text = f.read().strip().split('\n')
+        c.send('\n'.join(text[-5:]))
 
-    c.close()
+c.close()

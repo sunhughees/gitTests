@@ -13,4 +13,4 @@ message = '{"Hello": "Echo!"}'
 s.sendall(message)
 
 print s.recv(2048)
-print s.recv(2048)
+# print s.recv(2048)
