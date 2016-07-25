@@ -12,7 +12,8 @@ def fileIsChange(fileName):
     else:
         return True
 
-s = socket.socket()
+s = socket.socket(
+                  socket.AF_INET, socket.SOCK_STREAM)
 
 host = socket.gethostname()
 port = 8088
@@ -39,9 +40,10 @@ while True:
     if data:
         print "Data: {}".format(data)
         # c.send(data)
-        print "sent {} bytes back to {}".format(data, addr)
-        with open("example.out", "r") as f:
-            text = f.read().strip().split('\n')
-        c.send('\n'.join(text[-5:]))
+        # print "sent {} bytes back to {}".format(data, addr)
+        # with open("example.out", "r") as f:
+        #     text = f.read().strip().split('\n')
+        # c.send('\n'.join(text[-5:]))
+
 
 c.close()
