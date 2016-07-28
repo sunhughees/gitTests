@@ -83,12 +83,17 @@ def not_found(start_response):
 if __name__ == '__main__':
 
     import sys
-    ip = '0.0.0.0'
-    port = 8080
-    if sys.argv[1]:
-        ip = str(sys.argv[1])
-    if sys.argv[2]:
-        port = int(sys.argv[2])
+
+    try:
+        if sys.argv[1]:
+            ip = str(sys.argv[1])
+    except:
+        ip = '0.0.0.0'
+    try:
+        if sys.argv[2]:
+            port = int(sys.argv[2])
+    except:
+        port = 8080
 
     print 'Listening on port http://%s:%s' %(ip, str(port))
 
