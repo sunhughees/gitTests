@@ -1,0 +1,22 @@
+body {
+  margin: 2em;
+  font-family: sans-serif;
+}
+
+h1 {
+    position: relative;
+    left: 250px
+}
+
+#graph {
+  margin-top: 1.5em;
+}
+
+#stat-list {
+  margin-top: 1em;
+
+}
+
+li {
+    margin: 10px;
+}
