@@ -27,9 +27,20 @@ for _i in xrange(len(m)):
 
 
 
-title = "index, " + ', '.join(labels)
+with open('res.log', 'a') as f:
 
-print title
+
+    title = "index, " + ', '.join(labels)
+
+    print title
+    f.writelines(title+'\n')
+
+    for i in xrange(len(x)):
+        new = [y[j][i] for j in xrange(len(y))]
+        new.insert(0, x[i])
+        print ','.join(map(lambda x:str(x), new))
+        f.writelines(','.join(map(lambda x:str(x), new))+'\n')
+    
 
 
 
