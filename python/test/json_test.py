@@ -4,6 +4,14 @@ import json
 
 a = range(10)
 
-print json.dumps(a)
+b = json.dumps(a)
+
+print type(b)
+
+c = json.loads(b)
+
+print a==c
+
+# help(json)
 
 # print json.dumps({'a':1})
